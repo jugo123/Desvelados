@@ -3,7 +3,7 @@ from DTO.Conexion import Conexion
 host = 'localhost'
 user = 'root'
 password = ''
-db = 'ejemplobd'
+db = 'proyecto_agil'
 
 # Crear una función para insertar datos en la tabla usuario
 
@@ -14,9 +14,9 @@ def ingresar(usu):
         con = Conexion(host, user, password, db)
         # print("Estado CON:{}".format(con))
         # Se cea la Query ara hacer la inserción de un Usuario
-        sql = "INSERT INTO usuarios SET Nombre = '{}', Apellido = '{}', Edad = '{}', " \
-            "Genero = '{}', CorreoElectronico = '{}', Telefono = '{}', FechaRegistro = '{}'".\
-            format(usu.Nombre, usu.Apellido , usu.Edad, usu.Genero, usu.CorreoElectronico, usu.Telefono, usu.FechaRegistro)
+        sql = "INSERT INTO usuarios SET nombre = '{}', apellido = '{}', nombreUsuario = '{}', " \
+            "rut = '{}', rol = '{}', email = '{}', contraseña = '{}'".\
+            format(usu.nombre, usu.apellido , usu.nombreUsuario, usu.rut, usu.rol, usu.email, usu.contraseña)
         # Ejecutar la Query para hacer la inserción
         con.ejecuta_query(sql)
         # Debemos actualizar
@@ -45,7 +45,7 @@ def mostrarTodos():
 def mostrarParticular(id):
     try:
         con = Conexion(host, user, password, db)
-        sql = "select * from usuarios where ID={}".format(id)
+        sql = "select * from usuarios where idUsuario = {}".format(id)
         cursor = con.ejecuta_query(sql)
         dato = cursor.fetchone()  # Esto devuelve solo un
         con.desconectar()
@@ -69,8 +69,8 @@ def mostrarParcial(cant):
 def modificar(usu):
     try:
         con = Conexion(host, user, password, db)
-        sql = "INSERT INTO usuarios SET Nombre = '{}', Apellido = '{}', Edad = '{}', " \
-              "Genero = '{}', CorreoElectronico = '{}', Telefono = '{}', FechaRegistro = '{}' where idUsuario = {}". \
+        sql = "INSERT INTO usuarios SET nombre = '{}', apellido = '{}', nombreUsuario = '{}', " \
+            "rut = '{}', rol = '{}', email = '{}', contraseña = '{}' where idUsuario  = {}". \
             format(usu[1], usu[2], usu[3], usu[4], usu[5], usu[6], usu[7], usu[0])
         con.ejecuta_query(sql)
         con.commit()
@@ -84,7 +84,7 @@ def modificar(usu):
 def eliminar(id):
     try:
         con = Conexion(host, user, password, db)
-        sql = "delete from usuarios where ID={}".format(id)
+        sql = "delete from usuarios where idUsuario  = {}".format(id)
         con.ejecuta_query(sql)
         con.commit()
         input("\n\nUsuario Eliminado con Éxito :)")
