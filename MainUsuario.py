@@ -33,8 +33,8 @@ def ingresarDatos():
     nombre = input("Ingrese su Nommbre: ")
     apellido = input("Ingrese su Apellido: ")
     nombreUsuario = input("Ingrese nombre de usuario: ")
-    rut = int(input("Ingrese su RUT"))
-    rol = input("Ingrese su rol")
+    rut = input("Ingrese su RUT, solo números")
+    rol = int(input("Ingrese su rol"))
     email = input("ngrese su Correo Electronico")
     contraseña = input("Ingrese su contraseña")
     # codificar la contraseña
