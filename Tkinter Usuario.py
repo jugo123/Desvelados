@@ -1,58 +1,144 @@
 import tkinter as tk
 import pymysql
-from DAO import CRUDUsuario  # Asegúrate de que la estructura de tus directorios coincida
+from tkinter import messagebox
+import DAO.CRUDUsuario
+from DTO import Usuarios, Varios
 
-# Función para verificar el nombre de usuario y la contraseña
-def verificar_credenciales():
-    nombre_usuario_ingresado = cuadro_usuario.get()
-    contraseña_ingresada = cuadro_contraseña.get()
 
-    # Conectar a la base de datos MySQL
-    conexion = pymysql.connect(
-        host='localhost',
-        user = 'root',
-        password = '',
-        db = 'proyecto_agil'
+def open_login_window():
+    def verificar_credenciales():
+        nombre_usuario_ingresado = cuadro_usuario.get()
+        contraseña_ingresada = cuadro_contraseña.get()
+
+        # Conectar a la base de datos MySQL
+        conexion = pymysql.connect(
+            host='localhost',
+            user='root',
+            password='',
+            db='proyecto_agil'
         )
-    cursor = conexion.cursor()
+        cursor = conexion.cursor()
 
-    # Realizar una consulta para obtener los usuarios con las credenciales ingresadas
-    cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contraseña = %s",
-                   (nombre_usuario_ingresado, contraseña_ingresada))
-    usuarios = cursor.fetchall()
+        # Realizar una consulta para obtener los usuarios con las credenciales ingresadas
+        cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contraseña = %s",
+                       (nombre_usuario_ingresado, contraseña_ingresada))
+        usuarios = cursor.fetchall()
 
-    # Cerrar la conexión a la base de datos
-    conexion.close()
+        # Cerrar la conexión a la base de datos
+        conexion.close()
 
-    if usuarios:
-        etiqueta_resultado.config(text="¡Credenciales correctas!")
-    else:
-        etiqueta_resultado.config(text="¡Usuario o contraseña incorrectos!")
+        if usuarios:
+            messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
+            login_window.destroy()  # Cerrar la ventana de inicio de sesión después de un inicio de sesión exitoso
+        else:
+            messagebox.showerror("Error", "Usuario o contraseña incorrectos")
 
-# Crear una ventana
+    # Ocultar la ventana principal
+    ventana.withdraw()
+
+    login_window = tk.Toplevel(ventana)
+    login_window.title("Log In")
+    login_window.minsize(width=400, height=200)
+    login_window.config(padx=30, pady=30)
+
+    # Campos de entrada para nombre de usuario y contraseña
+    tk.Label(login_window, text="Nombre de Usuario:").pack(pady=5)
+    cuadro_usuario = tk.Entry(login_window)
+    cuadro_usuario.pack(pady=5)
+
+    tk.Label(login_window, text="Contraseña:").pack(pady=5)
+    cuadro_contraseña = tk.Entry(login_window, show="*")
+    cuadro_contraseña.pack(pady=5)
+
+    # Botón de inicio de sesión
+    tk.Button(login_window, text="Iniciar Sesión", command=verificar_credenciales).pack(pady=10)
+
+
+def ingresar_datos_en_registro():
+    global entry_rut, entry_nombre, entry_apellido, entry_nombre_usuario, entry_rol, entry_email, entry_contraseña
+
+    rut = entry_rut.get()
+    nombre = entry_nombre.get()
+    apellido = entry_apellido.get()
+    nombre_usuario = entry_nombre_usuario.get()
+    rol = entry_rol.get()
+    email = entry_email.get()
+    contraseña = entry_contraseña.get()
+
+    # Mapear roles a valores numéricos (ajusta según tus necesidades)
+    roles = {"Médico": 1, "Programador": 2, "Investigador": 3, "Infectólogo": 4, "Autoridad": 5}
+    rol_numeric = roles.get(rol)
+
+    # Crear un objeto de tipo Usuario
+    usuario = Usuarios.Usuarios(nombre, apellido, nombre_usuario, rut, rol, email, contraseña)
+
+    # Solicitar al CRUD que realice la inserción (ajusta esto según tu implementación real)
+    DAO.CRUDUsuario.ingresar(usuario)
+
+    messagebox.showinfo("Éxito", "Datos de usuario ingresados correctamente")
+
+def open_signup_window():
+    global entry_rut, entry_nombre, entry_apellido, entry_nombre_usuario, entry_rol, entry_email, entry_contraseña
+
+    # Ocultar la ventana principal
+    ventana.withdraw()
+
+    signup_window = tk.Toplevel(ventana)
+    signup_window.title("Sign Up")
+    signup_window.minsize(width=400, height=200)
+    signup_window.config(padx=30, pady=30)
+
+    # Campos de entrada para los datos del usuario
+    tk.Label(signup_window, text="RUT:").pack(pady=5)
+    entry_rut = tk.Entry(signup_window)
+    entry_rut.pack(pady=5)
+
+    tk.Label(signup_window, text="Nombre:").pack(pady=5)
+    entry_nombre = tk.Entry(signup_window)
+    entry_nombre.pack(pady=5)
+
+    tk.Label(signup_window, text="Apellido:").pack(pady=5)
+    entry_apellido = tk.Entry(signup_window)
+    entry_apellido.pack(pady=5)
+
+    tk.Label(signup_window, text="Nombre de Usuario:").pack(pady=5)
+    entry_nombre_usuario = tk.Entry(signup_window)
+    entry_nombre_usuario.pack(pady=5)
+
+    tk.Label(signup_window, text="Rol:").pack(pady=5)
+    roles = ["Médico", "Programador", "Investigador", "Infectólogo", "Autoridad"]
+    entry_rol = tk.StringVar(signup_window)
+    entry_rol.set(roles[0])  # Valor predeterminado
+    tk.OptionMenu(signup_window, entry_rol, *roles).pack(pady=5)
+
+    tk.Label(signup_window, text="Email:").pack(pady=5)
+    entry_email = tk.Entry(signup_window)
+    entry_email.pack(pady=5)
+
+    tk.Label(signup_window, text="Contraseña:").pack(pady=5)
+    entry_contraseña = tk.Entry(signup_window, show="*")
+    entry_contraseña.pack(pady=5)
+
+    # Botón para ingresar los datos del usuario
+    tk.Button(signup_window, text="Ingresar Datos", command=ingresar_datos_en_registro).pack(pady=10)
+
+    # Agrega los elementos necesarios para la ventana de registro
+    # (por ejemplo, campos de entrada para nombre, apellido, usuario y contraseña).
+
+
+# Configuración de la ventana principal
 ventana = tk.Tk()
-ventana.title("Verificar Credenciales")
+ventana.title("menu principal")
 ventana.minsize(width=400, height=200)
 ventana.config(padx=30, pady=30)
 
-# Crear un cuadro de texto para el nombre de usuario
-cuadro_usuario = tk.Entry(ventana, width=30)
-cuadro_usuario.pack(pady=10)
+# Botón "Log In"
+login_button = tk.Button(ventana, text="Log In", command=open_login_window)
+login_button.pack(pady=10)
 
-# Crear un cuadro de texto para la contraseña
-cuadro_contraseña = tk.Entry(ventana, show="*", width=30)  # El parámetro show="*" oculta la contraseña
-cuadro_contraseña.pack(pady=10)
+# Botón "Sign Up"
+signup_button = tk.Button(ventana, text="Sign Up", command=open_signup_window)
+signup_button.pack(pady=10)
 
-# Crear un botón para verificar las credenciales
-boton_verificar = tk.Button(ventana, text="Log in", command=verificar_credenciales)
-boton_verificar.pack(pady=10)
-
-# Crear una etiqueta para mostrar el resultado
-etiqueta_resultado = tk.Label(ventana, text="")
-etiqueta_resultado.pack()
-
-# Añadir aquí el resto de tu interfaz Tkinter y lógica de la aplicación
-
-
-# Iniciar el bucle principal
+# Inicia el bucle principal de la aplicación
 ventana.mainloop()
