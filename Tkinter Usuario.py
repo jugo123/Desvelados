@@ -5,6 +5,13 @@ import DAO.CRUDUsuario
 from DTO import Usuarios, Varios
 
 
+def volver_a_principal(ventana_actual):
+    # Mostrar la ventana principal
+    ventana.deiconify()
+
+    # Cerrar la ventana actual
+    ventana_actual.destroy()
+
 def open_login_window():
     def verificar_credenciales():
         nombre_usuario_ingresado = cuadro_usuario.get()
@@ -29,7 +36,7 @@ def open_login_window():
 
         if usuarios:
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
-            login_window.destroy()  # Cerrar la ventana de inicio de sesión después de un inicio de sesión exitoso
+            volver_a_principal(login_window)  # Volver a la ventana principal y cerrar la ventana de inicio de sesión
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos")
 
@@ -52,6 +59,9 @@ def open_login_window():
 
     # Botón de inicio de sesión
     tk.Button(login_window, text="Iniciar Sesión", command=verificar_credenciales).pack(pady=10)
+
+    # Botón para volver a la ventana principal y cerrar la ventana de registro
+    tk.Button(login_window, text="Volver a Principal", command=lambda: volver_a_principal(login_window)).pack(pady=10)
 
 
 def ingresar_datos_en_registro():
@@ -122,8 +132,8 @@ def open_signup_window():
     # Botón para ingresar los datos del usuario
     tk.Button(signup_window, text="Ingresar Datos", command=ingresar_datos_en_registro).pack(pady=10)
 
-    # Agrega los elementos necesarios para la ventana de registro
-    # (por ejemplo, campos de entrada para nombre, apellido, usuario y contraseña).
+    # Botón para volver a la ventana principal y cerrar la ventana de registro
+    tk.Button(signup_window, text="Volver a Principal", command=lambda: volver_a_principal(signup_window)).pack(pady=10)
 
 
 # Configuración de la ventana principal
