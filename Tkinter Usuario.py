@@ -5,6 +5,28 @@ import DAO.CRUDUsuario
 from DTO import Usuarios, Varios
 
 
+def salir_del_usuario_actual(ventana_actual):
+    # Mostrar la ventana principal
+    ventana.deiconify()
+
+    # Cerrar la ventana actual
+    ventana_actual.destroy()
+
+
+def abrir_ventana_secundaria(ventana_actual):
+    # Ocultar la ventana actual
+    ventana_actual.withdraw()
+
+    # Crear y mostrar la ventana secundaria
+    ventana_secundaria = tk.Toplevel()
+    ventana_secundaria.title("Ventana Secundaria")
+    ventana_secundaria.minsize(width=400, height=200)
+    ventana_secundaria.config(padx=30, pady=30)
+
+    # Botón para salir del usuario actual
+    tk.Button(ventana_secundaria, text="Salir del Usuario",command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
+
+
 def volver_a_principal(ventana_actual):
     # Mostrar la ventana principal
     ventana.deiconify()
@@ -36,7 +58,7 @@ def open_login_window():
 
         if usuarios:
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
-            volver_a_principal(login_window)  # Volver a la ventana principal y cerrar la ventana de inicio de sesión
+            abrir_ventana_secundaria(login_window)  # llevara a una ventana secundaria al ingersar correctamente
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos")
 
