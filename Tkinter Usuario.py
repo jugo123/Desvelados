@@ -56,6 +56,8 @@ def open_login_window():
         # Cerrar la conexión a la base de datos
         conexion.close()
 
+        # si se encontró al menos un usuario con las credenciales proporcionadas se realizara el if
+        # de lo contrario, la variable usuarios estara vacia y se realizara el else
         if usuarios:
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
             abrir_ventana_secundaria(login_window)  # llevara a una ventana secundaria al ingersar correctamente
@@ -70,14 +72,18 @@ def open_login_window():
     login_window.minsize(width=400, height=200)
     login_window.config(padx=30, pady=30)
 
-    # Campos de entrada para nombre de usuario y contraseña
-    tk.Label(login_window, text="Nombre de Usuario:").pack(pady=5)
-    cuadro_usuario = tk.Entry(login_window)
-    cuadro_usuario.pack(pady=5)
+    # Contenedor para alinear elementos
+    frame = tk.Frame(login_window)
+    frame.pack(pady=10)
 
-    tk.Label(login_window, text="Contraseña:").pack(pady=5)
-    cuadro_contraseña = tk.Entry(login_window, show="*")
-    cuadro_contraseña.pack(pady=5)
+    # Campos de entrada para nombre de usuario y contraseña
+    tk.Label(frame, text="Nombre de Usuario:").grid(row=0, column=0, pady=5, padx=5, sticky="w")
+    cuadro_usuario = tk.Entry(frame)
+    cuadro_usuario.grid(row=0, column=1, pady=5, padx=5)
+
+    tk.Label(frame, text="Contraseña:").grid(row=1, column=0, pady=5, padx=5, sticky="w")
+    cuadro_contraseña = tk.Entry(frame, show="*")
+    cuadro_contraseña.grid(row=1, column=1, pady=5, padx=5)
 
     # Botón de inicio de sesión
     tk.Button(login_window, text="Iniciar Sesión", command=verificar_credenciales).pack(pady=10)
@@ -120,36 +126,40 @@ def open_signup_window():
     signup_window.minsize(width=400, height=200)
     signup_window.config(padx=30, pady=30)
 
+    # Contenedor para alinear elementos
+    frame = tk.Frame(signup_window)
+    frame.pack(pady=10)
+
     # Campos de entrada para los datos del usuario
-    tk.Label(signup_window, text="RUT:").pack(pady=5)
-    entry_rut = tk.Entry(signup_window)
-    entry_rut.pack(pady=5)
+    tk.Label(frame, text="RUT:").grid(row=0, column=0, pady=5, padx=5, sticky="w")
+    entry_rut = tk.Entry(frame)
+    entry_rut.grid(row=0, column=1, pady=5, padx=5)
 
-    tk.Label(signup_window, text="Nombre:").pack(pady=5)
-    entry_nombre = tk.Entry(signup_window)
-    entry_nombre.pack(pady=5)
+    tk.Label(frame, text="Nombre:").grid(row=1, column=0, pady=5, padx=5, sticky="w")
+    entry_nombre = tk.Entry(frame)
+    entry_nombre.grid(row=1, column=1, pady=5, padx=5)
 
-    tk.Label(signup_window, text="Apellido:").pack(pady=5)
-    entry_apellido = tk.Entry(signup_window)
-    entry_apellido.pack(pady=5)
+    tk.Label(frame, text="Apellido:").grid(row=2, column=0, pady=5, padx=5, sticky="w")
+    entry_apellido = tk.Entry(frame)
+    entry_apellido.grid(row=2, column=1, pady=5, padx=5)
 
-    tk.Label(signup_window, text="Nombre de Usuario:").pack(pady=5)
-    entry_nombre_usuario = tk.Entry(signup_window)
-    entry_nombre_usuario.pack(pady=5)
+    tk.Label(frame, text="Nombre de Usuario:").grid(row=3, column=0, pady=5, padx=5, sticky="w")
+    entry_nombre_usuario = tk.Entry(frame)
+    entry_nombre_usuario.grid(row=3, column=1, pady=5, padx=5)
 
-    tk.Label(signup_window, text="Rol:").pack(pady=5)
+    tk.Label(frame, text="Rol:").grid(row=4, column=0, pady=5, padx=5, sticky="w")
     roles = ["Médico", "Programador", "Investigador", "Infectólogo", "Autoridad"]
-    entry_rol = tk.StringVar(signup_window)
+    entry_rol = tk.StringVar(frame)
     entry_rol.set(roles[0])  # Valor predeterminado
-    tk.OptionMenu(signup_window, entry_rol, *roles).pack(pady=5)
+    tk.OptionMenu(frame, entry_rol, *roles).grid(row=4, column=1, pady=5, padx=5)
 
-    tk.Label(signup_window, text="Email:").pack(pady=5)
-    entry_email = tk.Entry(signup_window)
-    entry_email.pack(pady=5)
+    tk.Label(frame, text="Email:").grid(row=5, column=0, pady=5, padx=5, sticky="w")
+    entry_email = tk.Entry(frame)
+    entry_email.grid(row=5, column=1, pady=5, padx=5)
 
-    tk.Label(signup_window, text="Contraseña:").pack(pady=5)
-    entry_contraseña = tk.Entry(signup_window, show="*")
-    entry_contraseña.pack(pady=5)
+    tk.Label(frame, text="Contraseña:").grid(row=6, column=0, pady=5, padx=5, sticky="w")
+    entry_contraseña = tk.Entry(frame, show="*")
+    entry_contraseña.grid(row=6, column=1, pady=5, padx=5)
 
     # Botón para ingresar los datos del usuario
     tk.Button(signup_window, text="Ingresar Datos", command=ingresar_datos_en_registro).pack(pady=10)
