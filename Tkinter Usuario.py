@@ -2,7 +2,7 @@ import tkinter as tk
 import pymysql
 from tkinter import messagebox
 import DAO.CRUDUsuario
-from DTO import Usuarios, Varios
+from DTO import Usuarios
 
 
 def salir_del_usuario_actual(ventana_actual):
@@ -147,6 +147,7 @@ def open_signup_window():
     entry_nombre_usuario = tk.Entry(frame)
     entry_nombre_usuario.grid(row=3, column=1, pady=5, padx=5)
 
+    # crear una lista desplegable con opciones
     tk.Label(frame, text="Rol:").grid(row=4, column=0, pady=5, padx=5, sticky="w")
     roles = ["Médico", "Programador", "Investigador", "Infectólogo", "Autoridad"]
     entry_rol = tk.StringVar(frame)
