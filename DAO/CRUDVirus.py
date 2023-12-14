@@ -14,7 +14,7 @@ def ingresar(usu):
         con = Conexion(host, user, password, db)
         # print("Estado CON:{}".format(con))
         # Se cea la Query ara hacer la inserción de un Usuario
-        sql = "INSERT INTO virus SET nombreCientifico = '{}', nombre = '{}', fechaDesc = '{}', " .\
+        sql = "INSERT INTO virus SET nombreCientifico = '{}', nombre = '{}', fechaDesc = '{}'" .\
             format(usu.nombreCientifico, usu.nombre , usu.fechaDesc)
         # Ejecutar la Query para hacer la inserción
         con.ejecuta_query(sql)
