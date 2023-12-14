@@ -37,10 +37,8 @@ def ingresarDatos():
     rol = int(input("Ingrese su rol"))
     email = input("ngrese su Correo Electronico")
     contraseña = input("Ingrese su contraseña")
-    # codificar la contraseña
-    clave = Varios.hash_md5(contraseña)
     # Creamos ao objeto de tipo Usuario
-    usu = Usuarios.Usuarios(nombre, apellido , nombreUsuario, rut, rol, email, clave)
+    usu = Usuarios.Usuarios(nombre, apellido , nombreUsuario, rut, rol, email, contraseña)
     # Solicitar al CRUD que realice la inserción
     DAO.CRUDUsuario.ingresar(usu)
 
@@ -83,11 +81,11 @@ def mostrarUno():
     print("ID                   {}".format(dato[0]))
     print("Nombre               {}".format(dato[1]))
     print("Apellido             {}".format(dato[2]))
-    print("Edad                 {}".format(dato[3]))
-    print("Genero               {}".format(dato[4]))
-    print("CorreoElectronico    {}".format(dato[5]))
-    print("Telefono             {}".format(dato[6]))
-    print("FechaRegistro        {}".format(dato[7]))
+    print("nombreUsuario        {}".format(dato[3]))
+    print("rut                  {}".format(dato[4]))
+    print("rol                  {}".format(dato[5]))
+    print("email                {}".format(dato[6]))
+    print("contraseña           {}".format(dato[7]))
 
     input("\nPresione Enter para continuar")
 
