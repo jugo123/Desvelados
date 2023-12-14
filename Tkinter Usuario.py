@@ -11,7 +11,6 @@ def salir_del_usuario_actual(ventana_actual):
 
     # Cerrar la ventana actual
     ventana_actual.destroy()
-()
 
 def abrir_ventana_secundaria(ventana_actual):
     # Ocultar la ventana actual
@@ -24,6 +23,9 @@ def abrir_ventana_secundaria(ventana_actual):
     ventana_secundaria.config(padx=30, pady=30)
 
     # Botón para salir del usuario actual
+    tk.Button(ventana_secundaria, text="ingresar sintomas", command=lambda: ingresar_sintomas(ventana_secundaria)).pack(pady=10)
+
+    # Botón para salir del usuario actual
     tk.Button(ventana_secundaria, text="Salir del Usuario",command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
 
 
@@ -33,6 +35,17 @@ def volver_a_principal(ventana_actual):
 
     # Cerrar la ventana actual
     ventana_actual.destroy()
+
+def ingresar_sintomas(ventana_secundaria):
+    # Ocultar la ventana actual
+    ventana_secundaria.withdraw()
+
+    ventana_sintomas = tk.Toplevel(ventana)
+    ventana_sintomas.title("Ingreso de síntomas")
+    ventana_sintomas.geometry("600x500")
+
+    app_sintomas = VentanaSintomas(ventana_sintomas)
+
 
 def open_login_window():
     def verificar_credenciales():
@@ -60,11 +73,6 @@ def open_login_window():
         # de lo contrario, la variable usuarios estara vacia y se realizara el else
         if usuarios:
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
-            ventana_sintomas = tk.Toplevel(ventana)
-            ventana_sintomas.title("Ingreso de síntomas")
-            ventana_sintomas.geometry("600x500")
-
-            app_sintomas = VentanaSintomas(ventana_sintomas)
             abrir_ventana_secundaria(login_window)  # llevara a una ventana secundaria al ingersar correctamente
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos")
