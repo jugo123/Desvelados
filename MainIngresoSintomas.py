@@ -14,13 +14,39 @@ class VentanaSintomas:
 
         self.crear_interfaz()
 
+    def obtener_nombres_virus_desde_bd(self):
+        try:
+            conexion = pymysql.connect(
+                host='localhost',
+                user='root',
+                password='',
+                db='proyecto_agil'
+            )
+            cursor = conexion.cursor()
+
+            query = "SELECT nombreCientifico FROM Virus"
+            cursor.execute(query)
+            nombres_virus = [row[0] for row in cursor.fetchall()]
+
+            return nombres_virus
+
+        except pymysql.Error as e:
+            messagebox.showerror("Error", f"Error al obtener nombres de virus: {e}")
+
+        finally:
+            if conexion:
+                conexion.close()
+
     def crear_interfaz(self):
         self.marco = tk.LabelFrame(self.master, text="Ventana de ingreso de síntomas")
         self.marco.place(x=50, y=50, width=500, height=400)
 
+        # Obtener nombres de virus desde la base de datos
+        nombres_virus = self.obtener_nombres_virus_desde_bd()
+
         lblNombre = tk.Label(self.marco, text="Nombre de virus").grid(column=0, row=0, padx=5, pady=5)
-        txtNombre = tk.Entry(self.marco, textvariable=self.nombre)
-        txtNombre.grid(column=1, row=0)
+        self.lista_virus = ttk.Combobox(self.marco, values=nombres_virus, textvariable=self.nombre)
+        self.lista_virus.grid(column=1, row=0)
 
 
         lblSintoma = tk.Label(self.marco, text="Síntoma").grid(column=0, row=1, padx=5, pady=5)

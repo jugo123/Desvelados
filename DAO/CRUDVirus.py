@@ -14,14 +14,14 @@ def ingresar(usu):
         con = Conexion(host, user, password, db)
         # print("Estado CON:{}".format(con))
         # Se cea la Query ara hacer la inserción de un Usuario
-        sql = "INSERT INTO virus SET nombreCientifico = '{}', nombre = '{}', fechaDesc = '{}', " .\
+        sql = "INSERT INTO virus SET nombreCientifico = '{}', nombre = '{}', fechaDesc = '{}'" .\
             format(usu.nombreCientifico, usu.nombre , usu.fechaDesc)
         # Ejecutar la Query para hacer la inserción
         con.ejecuta_query(sql)
         # Debemos actualizar
         con.commit()
         # Enviar mensaje de inserción exitosa
-        input("\nDatos insertados con Éxito :)")
+        print("\nDatos insertados con Éxito :)")
         # Debemos soltar la conexión
         con.desconectar()
     except Exception as e:
