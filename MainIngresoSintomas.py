@@ -22,6 +22,7 @@ class VentanaSintomas:
         txtNombre = tk.Entry(self.marco, textvariable=self.nombre)
         txtNombre.grid(column=1, row=0)
 
+
         lblSintoma = tk.Label(self.marco, text="Síntoma").grid(column=0, row=1, padx=5, pady=5)
         txtSintoma = tk.Entry(self.marco, textvariable=self.sintoma)
         txtSintoma.grid(column=1, row=1)
