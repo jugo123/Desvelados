@@ -1,9 +1,11 @@
 import tkinter as tk
+from tkinter import ttk
 import pymysql
 from tkinter import messagebox
 import DAO.CRUDUsuario
 from DTO import Usuarios
-from MainIngresoSIntomas import VentanaSintomas
+from MainIngresoVirus import VentanaVirus
+from MainIngresoSintomas import VentanaSintomas
 
 def salir_del_usuario_actual(ventana_actual):
     # Mostrar la ventana principal
@@ -26,6 +28,9 @@ def abrir_ventana_secundaria(ventana_actual):
     tk.Button(ventana_secundaria, text="ingresar sintomas", command=lambda: ingresar_sintomas(ventana_secundaria)).pack(pady=10)
 
     # Botón para salir del usuario actual
+    tk.Button(ventana_secundaria, text="ingresar virus", command=lambda: ingresar_virus(ventana_secundaria)).pack(pady=10)
+
+    # Botón para salir del usuario actual
     tk.Button(ventana_secundaria, text="Salir del Usuario",command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
 
 
@@ -45,6 +50,16 @@ def ingresar_sintomas(ventana_secundaria):
     ventana_sintomas.geometry("600x500")
 
     app_sintomas = VentanaSintomas(ventana_sintomas)
+
+def ingresar_virus(ventana_secundaria):
+    # Ocultar la ventana actual
+    ventana_secundaria.withdraw()
+
+    ventana_virus = tk.Toplevel(ventana)
+    ventana_virus.title("Ingreso de datos de virus")
+    ventana_virus.geometry("600x500")
+
+    app_virus = VentanaVirus(ventana_virus)
 
 
 def open_login_window():
