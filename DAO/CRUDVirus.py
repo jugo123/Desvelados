@@ -21,7 +21,7 @@ def ingresar(usu):
         # Debemos actualizar
         con.commit()
         # Enviar mensaje de inserción exitosa
-        input("\nDatos insertados con Éxito :)")
+        print("\nDatos insertados con Éxito :)")
         # Debemos soltar la conexión
         con.desconectar()
     except Exception as e:
