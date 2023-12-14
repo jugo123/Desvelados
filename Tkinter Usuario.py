@@ -3,7 +3,7 @@ import pymysql
 from tkinter import messagebox
 import DAO.CRUDUsuario
 from DTO import Usuarios
-
+from MainIngresoSIntomas import VentanaSintomas
 
 def salir_del_usuario_actual(ventana_actual):
     # Mostrar la ventana principal
@@ -60,6 +60,11 @@ def open_login_window():
         # de lo contrario, la variable usuarios estara vacia y se realizara el else
         if usuarios:
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
+            ventana_sintomas = tk.Toplevel(ventana)
+            ventana_sintomas.title("Ingreso de síntomas")
+            ventana_sintomas.geometry("600x500")
+
+            app_sintomas = VentanaSintomas(ventana_sintomas)
             abrir_ventana_secundaria(login_window)  # llevara a una ventana secundaria al ingersar correctamente
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos")
