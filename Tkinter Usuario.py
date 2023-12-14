@@ -11,7 +11,7 @@ def salir_del_usuario_actual(ventana_actual):
 
     # Cerrar la ventana actual
     ventana_actual.destroy()
-
+()
 
 def abrir_ventana_secundaria(ventana_actual):
     # Ocultar la ventana actual

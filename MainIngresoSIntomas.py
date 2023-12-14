@@ -1,59 +1,176 @@
-import tkinter as tk
+
+"""import tkinter as tk
+from tkinter import ttk
 import pymysql
 from tkinter import messagebox
-import DAO.CRUDSintomas
-from DTO import Sintomas, Varios
-from tkinter import *
 
-
-ventana = Tk()
-ventana.title("ingreso de sintomas")
+ventana = tk.Tk()
+ventana.title("Ingreso de síntomas")
 ventana.geometry("600x500")
 
+nombre = tk.StringVar()
+sintoma = tk.StringVar()
 
-nombre= StringVar()
-sintoma= StringVar()
+marco = tk.LabelFrame(ventana, text="Ventana de ingreso de síntomas")
+marco.place(x=50, y=50, width=500, height=400)
 
-marco = LabelFrame(ventana, text = "ventana de ingreso de sintomas")
-marco.place(x=50, y=50 , width=500, height=400)
+lblNombre = tk.Label(marco, text="Nombre de virus").grid(column=0, row=0, padx=5, pady=5)
+txtNombre = tk.Entry(marco, textvariable=nombre)
+txtNombre.grid(column=1, row=0)
 
+lblSintoma = tk.Label(marco, text="Síntoma").grid(column=0, row=1, padx=5, pady=5)
+txtSintoma = tk.Entry(marco, textvariable=sintoma)
+txtSintoma.grid(column=1, row=1)
 
-lblNombre = Label(marco, text = "nombre de virus" ).grid(column=0, row=0, padx=5, pady=5)
-txtNombre = Entry(marco, textvariable=sintoma).grid(column=1,row=0)
-
-lblSintoma = Label(marco, text = "sintoma" ).grid(column=0, row=1, padx=5, pady=5)
-txtSintoma = Entry(marco, textvariable=sintoma).grid(column=1,row=1)
-
-Label(marco, text="aqui van los mensajes", fg="green").grid(column=1, row=2,columnspan=4)
+tk.Label(marco, text="Aquí van los mensajes", fg="green").grid(column=1, row=2, columnspan=4)
 
 vistadatos = ttk.Treeview(marco)
-vistadatos.grid(column=1, row=3,columnspan=4)
-vistadatos["columns"]=("nombre", "sintoma")
-vistadatos.column("#0", width=0, stretch=NO)
-vistadatos.column("nombre", width=150, anchor=CENTER)
-vistadatos.column("sintoma", width=150, anchor=CENTER)
-vistadatos.heading("nombre", text="Nombre", anchor=CENTER)
-vistadatos.heading("sintoma", text="Sintoma", anchor=CENTER)
+vistadatos.grid(column=1, row=3, columnspan=4)
+vistadatos["columns"] = ("nombre", "sintoma")
+vistadatos.column("#0", width=0, stretch=tk.NO)
+vistadatos.column("nombre", width=150, anchor=tk.CENTER)
+vistadatos.column("sintoma", width=150, anchor=tk.CENTER)
+vistadatos.heading("nombre", text="Nombre", anchor=tk.CENTER)
+vistadatos.heading("sintoma", text="Síntoma", anchor=tk.CENTER)
 
-#botones
-btnGuardar= Button(marco, text="Guardar", command=lambda:guardar())
+# Función para guardar datos en la base de datos
+def guardar():
+    nombre_virus = nombre.get()
+    sintoma_valor = sintoma.get()
+
+    if nombre_virus and sintoma_valor:
+        try:
+            conexion = pymysql.connect(
+                host='localhost',
+                user='root',
+                password='',
+                db='proyecto_agil'
+            )
+            cursor = conexion.cursor()
+
+            # Insertar datos en la base de datos
+            query = "INSERT INTO Sintomas (nombre, sintoma) VALUES (%s, %s)"
+            cursor.execute(query, (nombre_virus, sintoma_valor))
+            conexion.commit()
+
+            messagebox.showinfo("Éxito", "Datos guardados correctamente")
+
+        except pymysql.Error as e:
+            messagebox.showerror("Error", f"Error al guardar datos en la base de datos: {e}")
+
+        finally:
+            if conexion:
+                conexion.close()
+    else:
+        messagebox.showwarning("Advertencia", "Por favor, complete todos los campos.")
+
+# Botones
+btnGuardar = tk.Button(marco, text="Guardar", command=guardar)
 btnGuardar.grid(column=1, row=4)
 
+ventana.mainloop()"""
 
-def llenar_tabla():
-    vaciar_tabla()
-    sql="select * from "
-def vaciar_tabla():
-    filas = vistadatos.get_children()
-    for fila in filas:
-        vistadatos.delete(fila)
+import tkinter as tk
+from tkinter import ttk
+import pymysql
+from tkinter import messagebox
 
+ventana = tk.Tk()
+ventana.title("Ingreso de síntomas")
+ventana.geometry("600x500")
+
+nombre = tk.StringVar()
+sintoma = tk.StringVar()
+
+marco = tk.LabelFrame(ventana, text="Ventana de ingreso de síntomas")
+marco.place(x=50, y=50, width=500, height=400)
+
+lblNombre = tk.Label(marco, text="Nombre de virus").grid(column=0, row=0, padx=5, pady=5)
+txtNombre = tk.Entry(marco, textvariable=nombre)
+txtNombre.grid(column=1, row=0)
+
+lblSintoma = tk.Label(marco, text="Síntoma").grid(column=0, row=1, padx=5, pady=5)
+txtSintoma = tk.Entry(marco, textvariable=sintoma)
+txtSintoma.grid(column=1, row=1)
+
+tk.Label(marco, text="Aquí van los mensajes", fg="green").grid(column=1, row=2, columnspan=4)
+
+vistadatos = ttk.Treeview(marco)
+vistadatos.grid(column=1, row=3, columnspan=4)
+vistadatos["columns"] = ("nombre", "sintoma")
+vistadatos.column("#0", width=0, stretch=tk.NO)
+vistadatos.column("nombre", width=150, anchor=tk.CENTER)
+vistadatos.column("sintoma", width=150, anchor=tk.CENTER)
+vistadatos.heading("nombre", text="Nombre", anchor=tk.CENTER)
+vistadatos.heading("sintoma", text="Síntoma", anchor=tk.CENTER)
+
+# Función para guardar datos en la base de datos
 def guardar():
-    val= (nombre.get(), sintoma.get())
-    sql= "insert into Sintomas(nombre, sintoma) values (%s, %s)"
-    db.cursor.execute(sql)
-    db.connection.commit()
-    Label.config(text="datos guardados con exito", fg="green")
-    llenar_tabla()
+    nombre_virus = nombre.get()
+    sintoma_valor = sintoma.get()
+
+    if nombre_virus and sintoma_valor:
+        try:
+            conexion = pymysql.connect(
+                host='localhost',
+                user='root',
+                password='',
+                db='proyecto_agil'
+            )
+            cursor = conexion.cursor()
+
+            # Insertar datos en la base de datos
+            query = "INSERT INTO Sintomas (nombre, sintoma) VALUES (%s, %s)"
+            cursor.execute(query, (nombre_virus, sintoma_valor))
+            conexion.commit()
+
+            messagebox.showinfo("Éxito", "Datos guardados correctamente")
+
+            # Actualizar la vista de datos
+            mostrar_datos()
+
+        except pymysql.Error as e:
+            messagebox.showerror("Error", f"Error al guardar datos en la base de datos: {e}")
+
+        finally:
+            if conexion:
+                conexion.close()
+    else:
+        messagebox.showwarning("Advertencia", "Por favor, complete todos los campos.")
+
+# Función para mostrar datos en la vista de datos
+def mostrar_datos():
+    vistadatos.delete(*vistadatos.get_children())  # Limpiar la tabla antes de mostrar nuevos datos
+
+    try:
+        conexion = pymysql.connect(
+            host='localhost',
+            user='root',
+            password='',
+            db='proyecto_agil'
+        )
+        cursor = conexion.cursor()
+
+        # Obtener datos de la base de datos
+        query = "SELECT nombre, sintoma FROM Sintomas"
+        cursor.execute(query)
+        datos = cursor.fetchall()
+
+        # Mostrar datos en la vista
+        for dato in datos:
+            vistadatos.insert("", "end", values=dato)
+
+    except pymysql.Error as e:
+        messagebox.showerror("Error", f"Error al obtener datos de la base de datos: {e}")
+
+    finally:
+        if conexion:
+            conexion.close()
+
+# Botones
+btnGuardar = tk.Button(marco, text="Guardar", command=guardar)
+btnGuardar.grid(column=1, row=4)
 
 ventana.mainloop()
+
+
