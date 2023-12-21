@@ -52,7 +52,6 @@ def ingresar_sintomas(ventana_secundaria):
     app_sintomas = VentanaSintomas(ventana_sintomas)
 
 def ingresar_virus(ventana_secundaria):
-    # Ocultar la ventana actual
     ventana_secundaria.withdraw()
 
     ventana_virus = tk.Toplevel(ventana)

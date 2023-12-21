@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import pymysql
 
+
 class VentanaVirus:
     def __init__(self, master):
         self.master = master
@@ -36,8 +37,8 @@ class VentanaVirus:
         self.vistadatos = ttk.Treeview(self.marco)
         self.vistadatos.grid(column=0, row=4, columnspan=4)
         self.vistadatos["columns"] = ("nombreCientifico", "nombre","fechaDescubrimiento")
-        self.vistadatos.column("#0", width=0, stretch=tk.NO)
-        self.vistadatos.column("nombreCientifico", width=150, anchor=tk.CENTER)
+        self.vistadatos.column("#0", width=42, stretch=tk.NO)
+        self.vistadatos.column("nombreCientifico", width=120, anchor=tk.CENTER)
         self.vistadatos.column("nombre", width=150, anchor=tk.CENTER)
         self.vistadatos.column("fechaDescubrimiento", width=150, anchor=tk.CENTER)
         self.vistadatos.heading("nombreCientifico", text="nombreCientifico", anchor=tk.CENTER)
@@ -45,9 +46,9 @@ class VentanaVirus:
         self.vistadatos.heading("fechaDescubrimiento", text="fechaDescubrimiento", anchor=tk.CENTER)
 
         btnGuardar = tk.Button(self.marco, text="Guardar", command=self.guardar)
-        btnGuardar.grid(column=1, row=5)
-
-        self.mostrar_datos()
+        btnGuardar.grid(column=0, row=5)
+        btnvolver = tk.Button(self.marco, text="Volver", command=self.volver)
+        btnvolver.grid(column=1, row=5,columnspan=4)
 
     def guardar(self):
         nombreCien = self.nombreCientifico.get()
