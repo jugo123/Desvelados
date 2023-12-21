@@ -47,8 +47,8 @@ class VentanaVirus:
 
         btnGuardar = tk.Button(self.marco, text="Guardar", command=self.guardar)
         btnGuardar.grid(column=0, row=5)
-        #btnvolver = tk.Button(self.marco, text="Volver", command=self.volver)
-        #btnvolver.grid(column=1, row=5,columnspan=4)
+        btnvolver = tk.Button(self.marco, text="Volver", command=self.volver)
+        btnvolver.grid(column=1, row=5,columnspan=4)
 
     def guardar(self):
         nombreCien = self.nombreCientifico.get()
