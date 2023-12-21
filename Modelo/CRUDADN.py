@@ -1,4 +1,4 @@
-from DTO.Conexion import Conexion
+from Presentador.Conexion import Conexion
 # Datos de conexion hacia la BD
 host = 'localhost'
 user = 'root'

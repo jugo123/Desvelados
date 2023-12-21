@@ -1,6 +1,6 @@
-from DTO import Virus
-from DTO import Catalogo
-from DAO import CRUDVirus
+from Presentador import Virus
+from Presentador import Catalogo
+from Modelo import CRUDVirus
 virus1 = Virus.Virus("Severe acute respiratory syndrome coronavirus 2", "SARS-CoV-2", "2019-12-01")
 virus2 = Virus.Virus("Human Immunodeficiency Virus", "HIV", "1983-05-20")
 virus3 = Virus.Virus("Influenza A virus subtype H1N1", "H1N1", "2009-04-15")

@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import pymysql
 from tkinter import messagebox
-import DAO.CRUDUsuario
-from DTO import Usuarios
+import Modelo.CRUDUsuario
+from Presentador import Usuarios
 from MainIngresoVirus import VentanaVirus
 from MainIngresoSintomas import VentanaSintomas
 
@@ -139,7 +139,7 @@ def ingresar_datos_en_registro():
     usuario = Usuarios.Usuarios(nombre, apellido, nombre_usuario, rut, rol, email, contraseña)
 
     # Solicitar al CRUD que realice la inserción (ajusta esto según tu implementación real)
-    DAO.CRUDUsuario.ingresar(usuario)
+    Modelo.CRUDUsuario.ingresar(usuario)
 
     messagebox.showinfo("Éxito", "Datos de usuario ingresados correctamente")
 
