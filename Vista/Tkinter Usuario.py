@@ -5,7 +5,7 @@ from tkinter import messagebox
 import Modelo.CRUDUsuario
 from Presentador import Usuarios
 from MainIngresoVirus import VentanaVirus
-from MainIngresoSintomas import VentanaSintomas
+from VistaSintomas import VentanaSintomas
 
 def salir_del_usuario_actual(ventana_actual):
     # Mostrar la ventana principal
