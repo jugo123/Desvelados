@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from Modelo import CRUDVirus
+from Modelo import CRUDSintomas
 import pymysql
 
 class VentanaSintomas:
@@ -16,26 +18,11 @@ class VentanaSintomas:
 
     def obtener_nombres_virus_desde_bd(self):
         try:
-            conexion = pymysql.connect(
-                host='localhost',
-                user='root',
-                password='',
-                db='proyecto_agil'
-            )
-            cursor = conexion.cursor()
-
-            query = "SELECT nombreCientifico FROM Virus"
-            cursor.execute(query)
-            nombres_virus = [row[0] for row in cursor.fetchall()]
+            nombres_virus = [row[1] for row in CRUDVirus.mostrarTodos()]
 
             return nombres_virus
-
-        except pymysql.Error as e:
+        except Exception as e:
             messagebox.showerror("Error", f"Error al obtener nombres de virus: {e}")
-
-        finally:
-            if conexion:
-                conexion.close()
 
     def crear_interfaz(self):
         self.marco = tk.LabelFrame(self.master, text="Ventana de ingreso de síntomas")
@@ -75,31 +62,16 @@ class VentanaSintomas:
 
         if nombre_virus and sintoma_valor:
             try:
-                conexion = pymysql.connect(
-                    host='localhost',
-                    user='root',
-                    password='',
-                    db='proyecto_agil'
-                )
-                cursor = conexion.cursor()
-
-                query = "INSERT INTO Sintomas (nombre, sintoma) VALUES (%s, %s)"
-                cursor.execute(query, (nombre_virus, sintoma_valor))
-                conexion.commit()
-
+                CRUDSintomas.ingresar(nombre_virus, sintoma_valor)
                 messagebox.showinfo("Éxito", "Datos guardados correctamente")
 
                 self.mostrar_datos()
 
-            except pymysql.Error as e:
+            except Exception as e:
                 messagebox.showerror("Error", f"Error al guardar datos en la base de datos: {e}")
 
-            finally:
-                if conexion:
-                    conexion.close()
         else:
             messagebox.showwarning("Advertencia", "Por favor, complete todos los campos.")
-
     def mostrar_datos(self):
         self.vistadatos.delete(*self.vistadatos.get_children())
 

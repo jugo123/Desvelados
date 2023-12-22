@@ -11,8 +11,8 @@ class Conexion:  # El codigo de conexion siempre sera el mismo
         )
         self.cursor = self.db.cursor()
 
-    def ejecuta_query(self, sql):
-        self.cursor.execute(sql)
+    def ejecuta_query(self, sql, params=None):
+        self.cursor.execute(sql, params)
         return self.cursor
 
     def desconectar(self):

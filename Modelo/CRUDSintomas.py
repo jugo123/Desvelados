@@ -8,26 +8,24 @@ db = 'proyecto_agil'
 # Crear una función para insertar datos en la tabla usuario
 
 
-def ingresar(usu):
+def ingresar(nombre_virus, sintoma_valor):
     try:
-        # genrar una conexion hacia la BD
+        # Generar una conexión hacia la BD
         con = Conexion(host, user, password, db)
-        # print("Estado CON:{}".format(con))
-        # Se cea la Query ara hacer la inserción de un Usuario
-        sql = "INSERT INTO Sintomas SET nombre = '{}',sintoma = '{}' where idSintomas  = {}". \
-            format(usu[1], usu[2], usu[0])
+        # Se crea la Query para hacer la inserción de un Síntoma
+        sql = "INSERT INTO Sintomas (nombre, sintoma) VALUES (%s, %s)"
         # Ejecutar la Query para hacer la inserción
-        con.ejecuta_query(sql)
+        con.ejecuta_query(sql, (nombre_virus, sintoma_valor))
         # Debemos actualizar
         con.commit()
         # Enviar mensaje de inserción exitosa
         print("\nDatos insertados con Éxito :)")
         # Debemos soltar la conexión
         con.desconectar()
+
     except Exception as e:
         print("Error al insertar en:{}".format(e))
         con.rollback()
-
 
 def mostrarTodos():
     try:
