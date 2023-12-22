@@ -53,7 +53,7 @@ class VentanaSintomas:
         txtSintoma = tk.Entry(self.marco, textvariable=self.sintoma)
         txtSintoma.grid(column=1, row=1)
 
-        tk.Label(self.marco, text="Aquí van los mensajes", fg="green").grid(column=1, row=2, columnspan=4)
+        tk.Label(self.marco, text="DATOS INGRESADOS", fg="green").grid(column=1, row=2, columnspan=4)
 
         self.vistadatos = ttk.Treeview(self.marco)
         self.vistadatos.grid(column=1, row=3, columnspan=4)
