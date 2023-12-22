@@ -72,32 +72,19 @@ class VentanaSintomas:
 
         else:
             messagebox.showwarning("Advertencia", "Por favor, complete todos los campos.")
+
     def mostrar_datos(self):
         self.vistadatos.delete(*self.vistadatos.get_children())
 
         try:
-            conexion = pymysql.connect(
-                host='localhost',
-                user='root',
-                password='',
-                db='proyecto_agil'
-            )
-            cursor = conexion.cursor()
-
-            query = "SELECT nombre, sintoma FROM Sintomas"
-            cursor.execute(query)
-            datos = cursor.fetchall()
+            datos = CRUDSintomas.mostrarTodos()
 
             for dato in datos:
-                self.vistadatos.insert("", "end", values=dato)
+                # Utilizar índices [1] y [2] en lugar de [0] y [1]
+                self.vistadatos.insert("", "end", values=(dato[1], dato[2]))
 
-        except pymysql.Error as e:
+        except Exception as e:
             messagebox.showerror("Error", f"Error al obtener datos de la base de datos: {e}")
-
-        finally:
-            if conexion:
-                conexion.close()
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = VentanaSintomas(root)

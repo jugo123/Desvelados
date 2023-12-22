@@ -32,11 +32,11 @@ def mostrarTodos():
         con = Conexion(host, user, password, db)
         sql = "select * from Sintomas"
         cursor = con.ejecuta_query(sql)
-        datos = cursor.fetchall()  # Esto devuelve todas las consultas/datos
+        datos = cursor.fetchall()
         con.desconectar()
         return datos
     except Exception as e:
-        print("Erorr al Mostrar Todos:{}".format(e))
+        print("Error al Mostrar Todos:{}".format(e))
 
 
 def MostrarParticular(id):
