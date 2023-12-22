@@ -24,10 +24,10 @@ def abrir_ventana_secundaria(ventana_actual):
     ventana_secundaria.minsize(width=400, height=200)
     ventana_secundaria.config(padx=30, pady=30)
 
-    # Botón para salir del usuario actual
+    # Botón para abrir ventana ingreso sintomas
     tk.Button(ventana_secundaria, text="ingresar sintomas", command=lambda: ingresar_sintomas(ventana_secundaria)).pack(pady=10)
 
-    # Botón para salir del usuario actual
+    # Botón para abrir ventana ingreso virus
     tk.Button(ventana_secundaria, text="ingresar virus", command=lambda: ingresar_virus(ventana_secundaria)).pack(pady=10)
 
     # Botón para salir del usuario actual
