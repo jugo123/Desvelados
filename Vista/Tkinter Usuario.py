@@ -41,10 +41,11 @@ def abrir_ventana_secundaria(ventana_actual):
     # Botón para ingresar a la ventana ingreso ADN
     tk.Button(ventana_secundaria, text="Ingresar ADN", command=lambda: abrir_ventana_adn(ventana_secundaria)).pack(pady=10)
 
+    tk.Button(ventana_secundaria, text="Banco de Muestra", command=abrir_ventana_banco).pack(pady=10)
     # Botón para salir del usuario actual
     tk.Button(ventana_secundaria, text="Salir del Usuario",command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
 
-    tk.Button(ventana_secundaria, text="Banco de Muestra", command=abrir_ventana_banco).pack(pady=10)
+
 
 
 def volver_a_principal(ventana_actual):
