@@ -1,24 +1,18 @@
 import tkinter as tk
-from tkinter import ttk
 import pymysql
 from tkinter import messagebox
 import Modelo.CRUDUsuario
 from Presentador import Usuarios
 from MainIngresoVirus import VentanaVirus
 from MainIngresoSintomas import VentanaSintomas
-
+from MainIngresoADN import VentanaADN
 def salir_del_usuario_actual(ventana_actual):
-    # Mostrar la ventana principal
     ventana.deiconify()
-
-    # Cerrar la ventana actual
     ventana_actual.destroy()
 
-def abrir_ventana_secundaria(ventana_actual):
-    # Ocultar la ventana actual
+def abrir_ventana_secundaria(ventana_actual, id_usuario, rol_usuario):
     ventana_actual.withdraw()
 
-    # Crear y mostrar la ventana secundaria
     ventana_secundaria = tk.Toplevel()
     ventana_secundaria.title("Ventana Secundaria")
     ventana_secundaria.minsize(width=400, height=200)
@@ -30,17 +24,11 @@ def abrir_ventana_secundaria(ventana_actual):
     # Botón para abrir ventana ingreso virus
     tk.Button(ventana_secundaria, text="ingresar virus", command=lambda: ingresar_virus(ventana_secundaria)).pack(pady=10)
 
-    # Botón para salir del usuario actual
-    tk.Button(ventana_secundaria, text="Salir del Usuario",command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
+    # Botón para abrir ventana ingreso de ADN
+    tk.Button(ventana_secundaria, text="Ingresar ADN", command=lambda: ingresar_adn(ventana_secundaria, rol_usuario)).pack(pady=10)
 
-
-def volver_a_principal(ventana_actual):
-    # Mostrar la ventana principal
-    ventana.deiconify()
-
-    # Cerrar la ventana actual
-    ventana_actual.destroy()
-
+    # Botón para salir de la ventana secundaria
+    tk.Button(ventana_secundaria, text="Salir del Usuario", command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
 def ingresar_sintomas(ventana_secundaria):
     # Ocultar la ventana actual
     ventana_secundaria.withdraw()
@@ -60,14 +48,25 @@ def ingresar_virus(ventana_secundaria):
     ventana_virus.geometry("600x500")
 
     app_virus = VentanaVirus(ventana_virus)
+def ingresar_adn(ventana_secundaria, rol_usuario):
+    if rol_usuario == "Infectólogo":
+        ventana_adn = tk.Toplevel(ventana_secundaria)
+        ventana_adn.title("Ingreso de ADN")
+        ventana_adn.geometry("600x500")
 
+        app_adn = VentanaADN(ventana_adn, rol_usuario)
+    else:
+        messagebox.showwarning("Acceso no autorizado", "Solo los infectólogos pueden acceder a esta función.")
+
+def volver_a_principal(ventana_actual):
+    ventana.deiconify()
+    ventana_actual.destroy()
 
 def open_login_window():
     def verificar_credenciales():
         nombre_usuario_ingresado = cuadro_usuario.get()
         contraseña_ingresada = cuadro_contraseña.get()
 
-        # Conectar a la base de datos MySQL
         conexion = pymysql.connect(
             host='localhost',
             user='root',
@@ -76,23 +75,21 @@ def open_login_window():
         )
         cursor = conexion.cursor()
 
-        # Realizar una consulta para obtener los usuarios con las credenciales ingresadas
-        cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contraseña = %s",
+        cursor.execute("SELECT idUsuario, rol FROM usuarios WHERE nombreUsuario = %s AND contraseña = %s",
                        (nombre_usuario_ingresado, contraseña_ingresada))
-        usuarios = cursor.fetchall()
+        usuario = cursor.fetchone()
 
-        # Cerrar la conexión a la base de datos
         conexion.close()
 
-        # si se encontró al menos un usuario con las credenciales proporcionadas se realizara el if
-        # de lo contrario, la variable usuarios estara vacia y se realizara el else
-        if usuarios:
+        if usuario:
+            id_usuario_actual = usuario[0]
+            rol_usuario_actual = usuario[1]
+
             messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
-            abrir_ventana_secundaria(login_window)  # llevara a una ventana secundaria al ingersar correctamente
+            abrir_ventana_secundaria(login_window, id_usuario_actual, rol_usuario_actual)
         else:
             messagebox.showerror("Error", "Usuario o contraseña incorrectos")
 
-    # Ocultar la ventana principal
     ventana.withdraw()
 
     login_window = tk.Toplevel(ventana)
@@ -100,11 +97,9 @@ def open_login_window():
     login_window.minsize(width=400, height=200)
     login_window.config(padx=30, pady=30)
 
-    # Contenedor para alinear elementos
     frame = tk.Frame(login_window)
     frame.pack(pady=10)
 
-    # Campos de entrada para nombre de usuario y contraseña
     tk.Label(frame, text="Nombre de Usuario:").grid(row=0, column=0, pady=5, padx=5, sticky="w")
     cuadro_usuario = tk.Entry(frame)
     cuadro_usuario.grid(row=0, column=1, pady=5, padx=5)
@@ -113,12 +108,8 @@ def open_login_window():
     cuadro_contraseña = tk.Entry(frame, show="*")
     cuadro_contraseña.grid(row=1, column=1, pady=5, padx=5)
 
-    # Botón de inicio de sesión
     tk.Button(login_window, text="Iniciar Sesión", command=verificar_credenciales).pack(pady=10)
-
-    # Botón para volver a la ventana principal y cerrar la ventana de registro
     tk.Button(login_window, text="Volver a Principal", command=lambda: volver_a_principal(login_window)).pack(pady=10)
-
 
 def ingresar_datos_en_registro():
     global entry_rut, entry_nombre, entry_apellido, entry_nombre_usuario, entry_rol, entry_email, entry_contraseña
@@ -131,14 +122,11 @@ def ingresar_datos_en_registro():
     email = entry_email.get()
     contraseña = entry_contraseña.get()
 
-    # Mapear roles a valores numéricos (ajusta según tus necesidades)
     roles = {"Médico": 1, "Programador": 2, "Investigador": 3, "Infectólogo": 4, "Autoridad": 5}
     rol_numeric = roles.get(rol)
 
-    # Crear un objeto de tipo Usuario
     usuario = Usuarios.Usuarios(nombre, apellido, nombre_usuario, rut, rol, email, contraseña)
 
-    # Solicitar al CRUD que realice la inserción (ajusta esto según tu implementación real)
     Modelo.CRUDUsuario.ingresar(usuario)
 
     messagebox.showinfo("Éxito", "Datos de usuario ingresados correctamente")
@@ -146,7 +134,6 @@ def ingresar_datos_en_registro():
 def open_signup_window():
     global entry_rut, entry_nombre, entry_apellido, entry_nombre_usuario, entry_rol, entry_email, entry_contraseña
 
-    # Ocultar la ventana principal
     ventana.withdraw()
 
     signup_window = tk.Toplevel(ventana)
@@ -154,11 +141,9 @@ def open_signup_window():
     signup_window.minsize(width=400, height=200)
     signup_window.config(padx=30, pady=30)
 
-    # Contenedor para alinear elementos
     frame = tk.Frame(signup_window)
     frame.pack(pady=10)
 
-    # Campos de entrada para los datos del usuario
     tk.Label(frame, text="RUT:").grid(row=0, column=0, pady=5, padx=5, sticky="w")
     entry_rut = tk.Entry(frame)
     entry_rut.grid(row=0, column=1, pady=5, padx=5)
@@ -175,11 +160,10 @@ def open_signup_window():
     entry_nombre_usuario = tk.Entry(frame)
     entry_nombre_usuario.grid(row=3, column=1, pady=5, padx=5)
 
-    # crear una lista desplegable con opciones
     tk.Label(frame, text="Rol:").grid(row=4, column=0, pady=5, padx=5, sticky="w")
     roles = ["Médico", "Programador", "Investigador", "Infectólogo", "Autoridad"]
     entry_rol = tk.StringVar(frame)
-    entry_rol.set(roles[0])  # Valor predeterminado
+    entry_rol.set(roles[0])
     tk.OptionMenu(frame, entry_rol, *roles).grid(row=4, column=1, pady=5, padx=5)
 
     tk.Label(frame, text="Email:").grid(row=5, column=0, pady=5, padx=5, sticky="w")
@@ -190,12 +174,8 @@ def open_signup_window():
     entry_contraseña = tk.Entry(frame, show="*")
     entry_contraseña.grid(row=6, column=1, pady=5, padx=5)
 
-    # Botón para ingresar los datos del usuario
     tk.Button(signup_window, text="Ingresar Datos", command=ingresar_datos_en_registro).pack(pady=10)
-
-    # Botón para volver a la ventana principal y cerrar la ventana de registro
     tk.Button(signup_window, text="Volver a Principal", command=lambda: volver_a_principal(signup_window)).pack(pady=10)
-
 
 # Configuración de la ventana principal
 ventana = tk.Tk()
@@ -211,5 +191,4 @@ login_button.pack(pady=10)
 signup_button = tk.Button(ventana, text="Sign Up", command=open_signup_window)
 signup_button.pack(pady=10)
 
-# Inicia el bucle principal de la aplicación
 ventana.mainloop()
