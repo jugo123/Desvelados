@@ -1,12 +1,11 @@
 import tkinter as tk
-from tkinter import ttk
 import pymysql
 from tkinter import messagebox
 import Modelo.CRUDUsuario
 from Presentador import Usuarios
 from MainIngresoVirus import VentanaVirus
 from VistaSintomas import VentanaSintomas
-
+import MainIngresoADN
 def salir_del_usuario_actual(ventana_actual):
     # Mostrar la ventana principal
     ventana.deiconify()
@@ -32,6 +31,9 @@ def abrir_ventana_secundaria(ventana_actual):
 
     # Botón para salir del usuario actual
     tk.Button(ventana_secundaria, text="Salir del Usuario",command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
+
+    tk.Button(ventana_secundaria, text="Ingresar ADN", command=lambda: abrir_ventana_adn(ventana_secundaria)).pack(
+        pady=10)
 
 
 def volver_a_principal(ventana_actual):
@@ -195,7 +197,18 @@ def open_signup_window():
 
     # Botón para volver a la ventana principal y cerrar la ventana de registro
     tk.Button(signup_window, text="Volver a Principal", command=lambda: volver_a_principal(signup_window)).pack(pady=10)
+def abrir_ventana_adn(ventana_secundaria):
+    # Ocultar la ventana actual
+    ventana_secundaria.withdraw()
 
+    # Crear y mostrar la ventana de MainIngresoADN
+    ventana_adn = tk.Toplevel(ventana)
+    ventana_adn.title("Ingreso de ADN")
+    ventana_adn.geometry("600x500")
+
+    # Crear una instancia de la clase VentanaADN
+    app_adn = MainIngresoADN.VentanaADN(ventana_adn, ventana_secundaria)
+    app_adn.abrir_desde_otra_ventana()
 
 # Configuración de la ventana principal
 ventana = tk.Tk()
@@ -213,3 +226,4 @@ signup_button.pack(pady=10)
 
 # Inicia el bucle principal de la aplicación
 ventana.mainloop()
+
