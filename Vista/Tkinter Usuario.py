@@ -7,6 +7,8 @@ from MainIngresoVirus import VentanaVirus
 from VistaSintomas import VentanaSintomas
 from MainEliminacionSintomas import VentanaEliminacionSintomas
 import MainIngresoADN
+import VistaBanco
+
 def salir_del_usuario_actual(ventana_actual):
     # Mostrar la ventana principal
     ventana.deiconify()
@@ -14,6 +16,9 @@ def salir_del_usuario_actual(ventana_actual):
     # Cerrar la ventana actual
     ventana_actual.destroy()
 
+def abrir_ventana_banco():
+    vista_banco = VistaBanco.VistaBanco()
+    vista_banco.run()
 def abrir_ventana_secundaria(ventana_actual):
     # Ocultar la ventana actual
     ventana_actual.withdraw()
@@ -38,6 +43,8 @@ def abrir_ventana_secundaria(ventana_actual):
 
     # Botón para salir del usuario actual
     tk.Button(ventana_secundaria, text="Salir del Usuario",command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
+
+    tk.Button(ventana_secundaria, text="Banco de Muestra", command=abrir_ventana_banco).pack(pady=10)
 
 
 def volver_a_principal(ventana_actual):
