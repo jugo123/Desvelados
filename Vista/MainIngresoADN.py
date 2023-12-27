@@ -41,13 +41,13 @@ class VentanaADN:
         self.vistadatos.grid(column=0, row=4, columnspan=4)
         self.vistadatos["columns"] = ("Secuencia_ADN", "NombreADN")
         self.vistadatos.column("#0", width=0, stretch=tk.NO)
-        self.vistadatos.column("Secuencia_ADN", width=150, anchor=tk.CENTER)
-        self.vistadatos.column("NombreADN", width=150, anchor=tk.CENTER)
+        self.vistadatos.column("Secuencia_ADN", width=250, anchor=tk.CENTER)
+        self.vistadatos.column("NombreADN", width=240, anchor=tk.CENTER)
         self.vistadatos.heading("Secuencia_ADN", text="Secuencia_ADN", anchor=tk.CENTER)
         self.vistadatos.heading("NombreADN", text="NombreADN", anchor=tk.CENTER)
 
         btnGuardar = tk.Button(self.marco, text="Guardar", command=self.guardar)
-        btnGuardar.grid(column=1, row=5)
+        btnGuardar.grid(column=0, row=5)
 
         btnEliminar = tk.Button(self.marco, text="Eliminar", command=self.eliminar)
         btnEliminar.grid(column=2, row=5)

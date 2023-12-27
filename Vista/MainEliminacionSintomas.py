@@ -82,16 +82,16 @@ class VentanaEliminacionSintomas:
         tk.Label(self.marco, text="DATOS INGRESADOS", fg="green").grid(column=1, row=3, columnspan=4)
 
         self.vistadatos = ttk.Treeview(self.marco)
-        self.vistadatos.grid(column=1, row=4, columnspan=4)
-        self.vistadatos["columns"] = ("nombre", "sintoma")
+        self.vistadatos.grid(column=0, row=4, columnspan=4)
+        self.vistadatos["columns"] = ("nombre ","sintoma")
         self.vistadatos.column("#0", width=0, stretch=tk.NO)
-        self.vistadatos.column("nombre", width=150, anchor=tk.CENTER)
-        self.vistadatos.column("sintoma", width=150, anchor=tk.CENTER)
-        self.vistadatos.heading("nombre", text="Nombre", anchor=tk.CENTER)
+        self.vistadatos.column("nombre ", width=250, anchor=tk.CENTER)
+        self.vistadatos.column("sintoma", width=245, anchor=tk.CENTER)
+        self.vistadatos.heading("nombre ", text="Nombre ", anchor=tk.CENTER)
         self.vistadatos.heading("sintoma", text="Síntoma", anchor=tk.CENTER)
 
         btnGuardar = tk.Button(self.marco, text="Guardar", command=self.guardar)
-        btnGuardar.grid(column=1, row=5)
+        btnGuardar.grid(column=0, row=5)
 
         btnEliminar = tk.Button(self.marco, text="Eliminar", command=self.eliminar)
         btnEliminar.grid(column=2, row=5)
