@@ -4,7 +4,7 @@ from tkinter import messagebox
 import Modelo.CRUDUsuario
 from Presentador import Usuarios
 from MainIngresoVirus import VentanaVirus
-from VistaSintomas import VentanaSintomas
+from VistaADN import VentanaADNS
 from MainEliminacionSintomas import VentanaEliminacionSintomas
 import MainIngresoADN
 import VistaBanco
@@ -29,8 +29,6 @@ def abrir_ventana_secundaria(ventana_actual):
     ventana_secundaria.minsize(width=400, height=200)
     ventana_secundaria.config(padx=30, pady=30)
 
-    # Botón para ingresar a la ventana ingreso sintomas
-    tk.Button(ventana_secundaria, text="ingresar sintomas", command=lambda: ingresar_sintomas(ventana_secundaria)).pack(pady=10)
 
     # Botón para ingresar a la ventana Eliminacion sintomas
     tk.Button(ventana_secundaria, text="Eliminación sintomas", command=lambda: eliminacion_sintomas(ventana_secundaria)).pack(pady=10)
@@ -39,9 +37,11 @@ def abrir_ventana_secundaria(ventana_actual):
     tk.Button(ventana_secundaria, text="ingresar virus", command=lambda: ingresar_virus(ventana_secundaria)).pack(pady=10)
 
     # Botón para ingresar a la ventana ingreso ADN
-    tk.Button(ventana_secundaria, text="Ingresar ADN", command=lambda: abrir_ventana_adn(ventana_secundaria)).pack(pady=10)
 
     tk.Button(ventana_secundaria, text="Banco de Muestra", command=abrir_ventana_banco).pack(pady=10)
+
+    tk.Button(ventana_secundaria, text="ingresar Secuencia de ADN", command=lambda: ingresar_SecADN(ventana_secundaria)).pack(pady=10)
+
     # Botón para salir del usuario actual
     tk.Button(ventana_secundaria, text="Salir del Usuario",command=lambda: salir_del_usuario_actual(ventana_secundaria)).pack(pady=10)
 
@@ -65,15 +65,15 @@ def eliminacion_sintomas(ventana_secundaria):
 
     app_sintomas2 = VentanaEliminacionSintomas(VentanaEliminacion)
 
-def ingresar_sintomas(ventana_secundaria):
+def ingresar_SecADN(ventana_secundaria):
     # Ocultar la ventana actual
     ventana_secundaria.withdraw()
 
-    ventana_sintomas = tk.Toplevel(ventana)
-    ventana_sintomas.title("Ingreso de síntomas")
-    ventana_sintomas.geometry("600x500")
+    ventana_SecADN = tk.Toplevel(ventana)
+    ventana_SecADN.title("Ingreso ADN")
+    ventana_SecADN.geometry("600x500")
 
-    app_sintomas = VentanaSintomas(ventana_sintomas)
+    app_sintomas = VentanaADNS(ventana_SecADN)
 
 def ingresar_virus(ventana_secundaria):
     # Ocultar la ventana actual

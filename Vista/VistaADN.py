@@ -2,13 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from Modelo import CRUDVirus
-from Modelo import CRUDSintomas
+from Modelo import CRUDADN
+from Presentador import ADN
 import pymysql
 
-class VentanaSintomas:
+class VentanaADNS:
     def __init__(self, master):
         self.master = master
-        self.master.title("Ingreso de síntomas")
+        self.master.title("Ingreso de ADN")
         self.master.geometry("600x500")
 
         self.nombre = tk.StringVar()
@@ -25,7 +26,7 @@ class VentanaSintomas:
             messagebox.showerror("Error", f"Error al obtener nombres de virus: {e}")
 
     def crear_interfaz(self):
-        self.marco = tk.LabelFrame(self.master, text="Ventana de ingreso de síntomas")
+        self.marco = tk.LabelFrame(self.master, text="Ventana de ingreso de Secuencia de ADN")
         self.marco.place(x=50, y=50, width=500, height=400)
 
         # Obtener nombres de virus desde la base de datos
@@ -36,7 +37,7 @@ class VentanaSintomas:
         self.lista_virus.grid(column=1, row=0)
 
 
-        lblSintoma = tk.Label(self.marco, text="Síntoma").grid(column=0, row=1, padx=5, pady=5)
+        lblSintoma = tk.Label(self.marco, text="Secuencia_ADN").grid(column=0, row=1, padx=5, pady=5)
         txtSintoma = tk.Entry(self.marco, textvariable=self.sintoma)
         txtSintoma.grid(column=1, row=1)
 
@@ -44,12 +45,12 @@ class VentanaSintomas:
 
         self.vistadatos = ttk.Treeview(self.marco)
         self.vistadatos.grid(column=1, row=3, columnspan=4)
-        self.vistadatos["columns"] = ("nombre", "sintoma")
+        self.vistadatos["columns"] = ("nombre", "Secuencia_ADN")
         self.vistadatos.column("#0", width=0, stretch=tk.NO)
         self.vistadatos.column("nombre", width=150, anchor=tk.CENTER)
-        self.vistadatos.column("sintoma", width=150, anchor=tk.CENTER)
-        self.vistadatos.heading("nombre", text="Nombre", anchor=tk.CENTER)
-        self.vistadatos.heading("sintoma", text="Síntoma", anchor=tk.CENTER)
+        self.vistadatos.column("Secuencia_ADN", width=150, anchor=tk.CENTER)
+        self.vistadatos.heading("nombre", text="Secuencia de ADN", anchor=tk.CENTER)
+        self.vistadatos.heading("Secuencia_ADN", text="Nombre de Virus", anchor=tk.CENTER)
 
         btnGuardar = tk.Button(self.marco, text="Guardar", command=self.guardar)
         btnGuardar.grid(column=1, row=4)
@@ -58,11 +59,11 @@ class VentanaSintomas:
 
     def guardar(self):
         nombre_virus = self.nombre.get()
-        sintoma_valor = self.sintoma.get()
+        sintoma = self.sintoma.get()
 
-        if nombre_virus and sintoma_valor:
+        if nombre_virus and sintoma:
             try:
-                CRUDSintomas.ingresar(nombre_virus, sintoma_valor)
+                CRUDADN.ingresar(nombre_virus, sintoma)
                 messagebox.showinfo("Éxito", "Datos guardados correctamente")
 
                 self.mostrar_datos()
@@ -72,12 +73,11 @@ class VentanaSintomas:
 
         else:
             messagebox.showwarning("Advertencia", "Por favor, complete todos los campos.")
-
     def mostrar_datos(self):
         self.vistadatos.delete(*self.vistadatos.get_children())
 
         try:
-            datos = CRUDSintomas.mostrarTodos()
+            datos = CRUDADN.mostrarTodos()
 
             for dato in datos:
                 # Utilizar índices [1] y [2] en lugar de [0] y [1]
@@ -87,5 +87,5 @@ class VentanaSintomas:
             messagebox.showerror("Error", f"Error al obtener datos de la base de datos: {e}")
 if __name__ == "__main__":
     root = tk.Tk()
-    app = VentanaSintomas(root)
+    app = VentanaADNS(root)
     root.mainloop()
