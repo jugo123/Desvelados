@@ -79,7 +79,7 @@ class VentanaEliminacionSintomas:
         self.entry_sintoma = tk.Entry(self.marco, textvariable=self.sintoma)
         self.entry_sintoma.grid(column=1, row=2, pady=5)
 
-        tk.Label(self.marco, text="DATOS INGRESADOS", fg="green").grid(column=1, row=3, columnspan=4)
+        tk.Label(self.marco, text="DATOS INGRESADOS", fg="green").grid(column=0, row=3, columnspan=4)
 
         self.vistadatos = ttk.Treeview(self.marco)
         self.vistadatos.grid(column=0, row=4, columnspan=4)
