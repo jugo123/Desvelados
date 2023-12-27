@@ -31,7 +31,7 @@ def abrir_ventana_secundaria(ventana_actual):
 
 
     # Botón para ingresar a la ventana Eliminacion sintomas
-    tk.Button(ventana_secundaria, text="Eliminación sintomas", command=lambda: eliminacion_sintomas(ventana_secundaria)).pack(pady=10)
+    tk.Button(ventana_secundaria, text="Agregación/Eliminación sintomas", command=lambda: eliminacion_sintomas(ventana_secundaria)).pack(pady=10)
 
     # Botón para ingresar a la ventana ingreso virus
     tk.Button(ventana_secundaria, text="ingresar virus", command=lambda: ingresar_virus(ventana_secundaria)).pack(pady=10)
