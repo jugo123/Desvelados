@@ -6,7 +6,7 @@ import pymysql
 class VentanaEliminacionSintomas:
     def __init__(self, master):
         self.master = master
-        self.master.title("Eliminacion de sintomas")
+        self.master.title("Agregación/Eliminacion de sintomas")
         self.master.geometry("600x500")
 
         self.nombre = tk.StringVar()
